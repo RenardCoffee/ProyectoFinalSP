@@ -25,3 +25,9 @@ El componente principal del sensor PIR es el sensor piroeléctrico que se muestr
 ![Sensor PIR](/Imagenes/proximity_pirsensor.jpg)
 
 Los PIR están hechos básicamente de un sensor piroeléctrico (que puede ver a continuación como la lata redonda de metal con un cristal rectangular en el centro), que puede detectar niveles de radiación infrarroja. Todo emite algo de radiación de bajo nivel, y cuanto más caliente es algo, más radiación se emite. El sensor en un detector de movimiento está dividido en dos mitades. La razón de esto es que estamos buscando detectar movimiento (cambio), no niveles promedio de IR. Las dos mitades están conectadas para que se cancelen entre sí. Si una mitad ve más o menos radiación IR que la otra, la salida oscilará alto o bajo.
+
+![Sensor PIR](/Imagenes/proximity_pirlens.jpg)
+
+El sensor piroeléctrico se divide en dos mitades, cuando no hay movimiento, ambas mitades permanecen en el mismo estado, lo que significa que ambos detectan el mismo nivel de infrarrojos. Tan pronto como alguien ingresa en la primera mitad, el nivel infrarrojo de una mitad se vuelve mayor que el otro, y esto hace que los PIR reaccionen y hace que el pin de salida sea alto.
+
+El sensor piroeléctrico está cubierto por una tapa de plástico, que tiene una gran variedad de lentes Fresnel en su interior. Estas lentes están curvadas de tal manera que el sensor puede cubrir un amplio rango.
