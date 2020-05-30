@@ -1,4 +1,4 @@
-# ProyectoFinalSP(Abrepuertas automático con Arduino)
+# ProyectoFinalSP(Abrepuertas automático con Arduino).
 
 Debe haber visto abridores automáticos de puertas en centros comerciales y otros edificios comerciales. Abren la puerta cuando alguien se acerca a la entrada y la cierran después de algún tiempo. Hay varias tecnologías disponibles para hacer este tipo de sistemas como sensores PIR, sensores de radar, sensores láser, sensores infrarrojos, etc. En este proyecto basado en Arduino, hemos tratado de replicar el mismo sistema utilizando un sensor PIR.
 
@@ -14,7 +14,7 @@ Utiliza un sensor de detección de movimiento (sensor PIR) para abrir o cerrar l
 * Power supply
 * Motor dc
   
-## Sensor PIR
+## Sensor PIR.
 
 El sensor PIR detecta cualquier cambio en el calor, y cada vez que detecta cualquier cambio, su PIN de salida se vuelve ALTO. También se conocen como sensores de movimiento piroeléctricos o IR.
 
@@ -31,3 +31,130 @@ Los PIR están hechos básicamente de un sensor piroeléctrico (que puede ver a 
 El sensor piroeléctrico se divide en dos mitades, cuando no hay movimiento, ambas mitades permanecen en el mismo estado, lo que significa que ambos detectan el mismo nivel de infrarrojos. Tan pronto como alguien ingresa en la primera mitad, el nivel infrarrojo de una mitad se vuelve mayor que el otro, y esto hace que los PIR reaccionen y hace que el pin de salida sea alto.
 
 El sensor piroeléctrico está cubierto por una tapa de plástico, que tiene una gran variedad de lentes Fresnel en su interior. Estas lentes están curvadas de tal manera que el sensor puede cubrir un amplio rango.
+
+## Diagrama de circuito y explicación.
+
+![CircuitoFinal](/Imagenes/circuito.png)
+
+### Explicación de programación.
+El concepto utilizado aquí para programar es muy simple. En el programa solo hemos usado entrada digital salida.
+
+DigitalRead se utiliza para leer la salida del sensor PIR.
+```javascript
+void loop() 
+{
+  if(digitalRead(PIR_sensor))
+  {
+    lcd.setCursor(0,0);
+    lcd.print("Movement Detected");
+    lcd.setCursor(0, 1);
+    lcd.print("    Gate Opened    ");
+    digitalWrite(m11, HIGH);         // La puerta se abre
+    digitalWrite(m12, LOW);
+    delay(1000);
+     ...
+)
+```
+Después de eso, si el sensor PIR detecta algún movimiento, el programa envía un comando para abrir la puerta, detener la puerta, cerrar la puerta y detener la puerta.
+
+```javascript
+void loop() 
+{
+  if(digitalRead(PIR_sensor))
+  {
+    lcd.setCursor(0,0);
+    lcd.print("Movement Detected");
+    lcd.setCursor(0, 1);
+    lcd.print("    Gate Opened    ");
+    digitalWrite(m11, HIGH);         // La puerta se abre
+    digitalWrite(m12, LOW);
+    delay(1000);
+    digitalWrite(m11, LOW);          // La puerta se detetiene por un rato 
+    digitalWrite(m12, LOW);
+    delay(1000);
+    lcd.clear();
+    lcd.print("   Gate Closed    ");
+    digitalWrite(m11, LOW);           // La pueta se va cerrando
+    digitalWrite(m12, HIGH);
+    delay(1000);
+    digitalWrite(m11, LOW);            // LA puerta se encunetra cerrada
+    digitalWrite(m12, LOW);
+    delay(1000);
+  }
+```
+Vea a continuación el código completo para el abridor automático de puertas basado en Arduino.
+
+## Codigo.
+
+```javascript
+#include <LiquidCrystal.h>
+/*
+  The circuit:
+ * LCD RS pin to digital pin 13
+ * LCD Enable pin to digital pin 12
+ * LCD D4 pin to digital pin 11
+ * LCD D5 pin to digital pin 10
+ * LCD D6 pin to digital pin 9
+ * LCD D7 pin to digital pin 8
+ * LCD R/W pin to ground
+ * LCD VSS pin to ground
+ * LCD VCC pin to 5V
+ * 10K resistor:
+ * ends to +5V and ground
+ * wiper to LCD VO pin (pin 3)
+ */
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8);
+
+#define PIR_sensor 14
+#define m11 0
+#define m12 1
+
+void setup() 
+{
+  lcd.begin(16, 2);
+  pinMode(m11, OUTPUT);
+  pinMode(m12, OUTPUT);
+  pinMode(PIR_sensor, INPUT);
+  lcd.print("    Automatic    ");
+  lcd.setCursor(0,1); 
+  lcd.print("   Door Opener   ");
+  delay(3000);
+  lcd.clear();
+  delay(2000);
+}
+
+void loop() 
+{
+  if(digitalRead(PIR_sensor))
+  {
+    lcd.setCursor(0,0);
+    lcd.print("Movement Detected");
+    lcd.setCursor(0, 1);
+    lcd.print("    Gate Opened    ");
+    digitalWrite(m11, HIGH);         // La puerta se abre
+    digitalWrite(m12, LOW);
+    delay(1000);
+    digitalWrite(m11, LOW);          // La puerta se detetiene por un rato 
+    digitalWrite(m12, LOW);
+    delay(1000);
+    lcd.clear();
+    lcd.print("   Gate Closed    ");
+    digitalWrite(m11, LOW);           // La pueta se va cerrando
+    digitalWrite(m12, HIGH);
+    delay(1000);
+    digitalWrite(m11, LOW);            // LA puerta se encunetra cerrada
+    digitalWrite(m12, LOW);
+    delay(1000);
+  }
+  
+  else 
+  {
+    lcd.setCursor(0,0);
+    lcd.print("   No Movement   ");
+    lcd.setCursor(0,1);
+    lcd.print("   Gate Closed   ");
+    digitalWrite(m11, LOW);
+    digitalWrite(m12, LOW);
+  }
+}
+```
