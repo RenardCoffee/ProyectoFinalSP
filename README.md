@@ -36,6 +36,10 @@ El sensor piroeléctrico está cubierto por una tapa de plástico, que tiene una
 
 ![CircuitoFinal](/Imagenes/circuito.png)
 
+## Prueba del Circuito.
+
+![PruebaFinal](/Imagenes/pruebaCircuito.gif)
+
 ### Explicación de programación.
 El concepto utilizado aquí para programar es muy simple. En el programa solo hemos usado entrada digital salida.
 
